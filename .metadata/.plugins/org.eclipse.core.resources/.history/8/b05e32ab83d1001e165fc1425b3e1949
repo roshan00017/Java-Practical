@@ -1,0 +1,96 @@
+package Movie_Rental_System;
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.sql.*;
+
+public class MRS extends JFrame {
+    private JTextField idField, titleField, genreField, languageField, lengthField;
+
+    public MRS() {
+        setTitle("Movie Rental System");
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(null);
+
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setBounds(20, 20, 100, 20);
+        add(idLabel);
+        idField = new JTextField();
+        idField.setBounds(120, 20, 200, 20);
+        add(idField);
+
+        JLabel titleLabel = new JLabel("Title:");
+        titleLabel.setBounds(20, 60, 100, 20);
+        add(titleLabel);
+        titleField = new JTextField();
+        titleField.setBounds(120, 60, 200, 20);
+        add(titleField);
+
+        JLabel genreLabel = new JLabel("Genre:");
+        genreLabel.setBounds(20, 100, 100, 20);
+        add(genreLabel);
+        genreField = new JTextField();
+        genreField.setBounds(120, 100, 200, 20);
+        add(genreField);
+
+        JLabel languageLabel = new JLabel("Language:");
+        languageLabel.setBounds(20, 140, 100, 20);
+        add(languageLabel);
+        languageField = new JTextField();
+        languageField.setBounds(120, 140, 200, 20);
+        add(languageField);
+
+        JLabel lengthLabel = new JLabel("Length:");
+        lengthLabel.setBounds(20, 180, 100, 20);
+        add(lengthLabel);
+        lengthField = new JTextField();
+        lengthField.setBounds(120, 180, 200, 20);
+        add(lengthField);
+
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(150, 220, 100, 30);
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                insertIntoDatabase();
+            }
+        });
+        add(okButton);
+    }
+
+    private void insertIntoDatabase() {
+        try {
+            // Establish database connection
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MRS", "username", "password");
+            Statement stmt = conn.createStatement();
+
+            // Retrieve values from fields
+            int id = Integer.parseInt(idField.getText());
+            String title = titleField.getText();
+            String genre = genreField.getText();
+            String language = languageField.getText();
+            int length = Integer.parseInt(lengthField.getText());
+
+            // Prepare SQL statement and execute
+            String sql = String.format("INSERT INTO Movie(id, Title, Genre, Language, Length) VALUES(%d, '%s', '%s', '%s', %d)",
+                    id, title, genre, language, length);
+            stmt.executeUpdate(sql);
+
+            // Close connections
+            stmt.close();
+            conn.close();
+
+            JOptionPane.showMessageDialog(null, "Data inserted successfully!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new MRS().setVisible(true);
+            }
+        });
+    }
+}

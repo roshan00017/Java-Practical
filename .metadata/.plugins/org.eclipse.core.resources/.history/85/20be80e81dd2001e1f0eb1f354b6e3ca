@@ -1,0 +1,75 @@
+package swing_component;
+
+import javax.swing.*;
+import java.awt.event.*;
+
+public class swing_component extends JFrame {
+    private JTextField principalField, rateField, timeField, interestField;
+    private JButton calculateButton;
+
+    public swing_component() {
+        setTitle("Simple Interest Calculator");
+        setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(null);
+
+        JLabel principalLabel = new JLabel("Principal:");
+        principalLabel.setBounds(20, 20, 100, 20);
+        add(principalLabel);
+        principalField = new JTextField();
+        principalField.setBounds(120, 20, 200, 20);
+        add(principalField);
+
+        JLabel rateLabel = new JLabel("Rate:");
+        rateLabel.setBounds(20, 50, 100, 20);
+        add(rateLabel);
+        rateField = new JTextField();
+        rateField.setBounds(120, 50, 200, 20);
+        add(rateField);
+
+        JLabel timeLabel = new JLabel("Time:");
+        timeLabel.setBounds(20, 80, 100, 20);
+        add(timeLabel);
+        timeField = new JTextField();
+        timeField.setBounds(120, 80, 200, 20);
+        add(timeField);
+
+        calculateButton = new JButton("Calculate Interest");
+        calculateButton.setBounds(100, 120, 200, 30);
+        calculateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                calculateInterest();
+            }
+        });
+        add(calculateButton);
+
+        JLabel interestLabel = new JLabel("Simple Interest:");
+        interestLabel.setBounds(20, 160, 100, 20);
+        add(interestLabel);
+        interestField = new JTextField();
+        interestField.setEditable(false);
+        interestField.setBounds(120, 160, 200, 20);
+        add(interestField);
+    }
+
+    private void calculateInterest() {
+        try {
+            double principal = Double.parseDouble(principalField.getText());
+            double rate = Double.parseDouble(rateField.getText());
+            double time = Double.parseDouble(timeField.getText());
+
+            double interest = (principal * rate * time) / 100;
+            interestField.setText(String.format("%.2f", interest));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter valid numbers for Principal, Rate, and Time.");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new swing_component().setVisible(true);
+            }
+        });
+    }
+}

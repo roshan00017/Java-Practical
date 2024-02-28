@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+C:\Users\offic\OneDrive\Desktop\Java_Practical\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3283571954.index
+\first_jsp\src\main\java
+C:\Users\offic\OneDrive\Desktop\Java_Practical\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3319438663.index
+\practical\src

@@ -1,0 +1,27 @@
+package jdbc;
+
+import java.sql.*;
+
+public class jdbc {
+    public static void main(String[] args) {
+        String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/mrs";
+        String username = "root";
+        String password = "root1234";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM Movie")) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("Title");
+                double price = resultSet.getString("Genre");
+
+                System.out.println("ID: " + id + ", Title: " + name + ", Genre: " + price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
